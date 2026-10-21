@@ -1,0 +1,229 @@
+[
+  {
+    "strategy": "S3",
+    "answer": "Ossbridge",
+    "value": 4.6,
+    "unit": "residents per km2",
+    "sources": [
+      "NR-01",
+      "NR-02"
+    ],
+    "id": "Q-01"
+  },
+  {
+    "strategy": "S3",
+    "answer": "Millbrook",
+    "value": 0.6,
+    "unit": "residents per km2",
+    "sources": [
+      "NR-05",
+      "NR-16",
+      "NR-11"
+    ],
+    "id": "Q-09"
+  },
+  {
+    "strategy": "S3",
+    "answer": "Harrowfield",
+    "value": 1.69,
+    "unit": "percentage points",
+    "sources": [
+      "NR-03",
+      "NR-07"
+    ],
+    "id": "Q-02"
+  },
+  {
+    "strategy": "S3",
+    "answer": "Millbrook",
+    "value": 2.59,
+    "unit": "pupils per school",
+    "sources": [
+      "NR-10",
+      "NR-11"
+    ],
+    "id": "Q-04"
+  },
+  {
+    "strategy": "S3",
+    "answer": "Redfen",
+    "value": 17.61,
+    "unit": "pupils per school",
+    "sources": [
+      "NR-04",
+      "NR-09"
+    ],
+    "id": "Q-15"
+  },
+  {
+    "strategy": "S3",
+    "answer": "Coldharbour",
+    "value": 14235.31,
+    "unit": "tenge per resident",
+    "sources": [
+      "NR-06",
+      "NR-12"
+    ],
+    "id": "Q-05"
+  },
+  {
+    "strategy": "S3",
+    "answer": "Yes",
+    "value": 14069,
+    "unit": "residents",
+    "sources": [
+      "NR-09",
+      "NR-04",
+      "NR-02"
+    ],
+    "id": "Q-06"
+  },
+  {
+    "strategy": "S3",
+    "answer": "Stonecairn",
+    "value": 8,
+    "unit": "years",
+    "sources": [
+      "NR-06",
+      "NR-12"
+    ],
+    "id": "Q-10"
+  },
+  {
+    "strategy": "S3",
+    "answer": "Yes",
+    "value": 23.9,
+    "unit": "km2",
+    "sources": [
+      "NR-01",
+      "NR-02",
+      "NR-03"
+    ],
+    "id": "Q-16"
+  },
+  {
+    "strategy": "S3",
+    "answer": "Coldharbour",
+    "value": 18.5,
+    "unit": "km per 1000 residents",
+    "sources": [
+      "NR-12",
+      "NR-06"
+    ],
+    "id": "Q-07"
+  },
+  {
+    "strategy": "S3",
+    "answer": "Lindenmoor",
+    "value": 0.0348,
+    "unit": "km per km2",
+    "sources": [
+      "NR-08",
+      "NR-09"
+    ],
+    "id": "Q-19"
+  },
+  {
+    "strategy": "S3",
+    "answer": "Lindenmoor",
+    "value": 5.34,
+    "unit": "litres per resident per day",
+    "sources": [
+      "NR-08",
+      "NR-04"
+    ],
+    "id": "Q-03"
+  },
+  {
+    "strategy": "S3",
+    "answer": "Ashgrove",
+    "value": 4.8,
+    "unit": "litres per resident per day",
+    "sources": [
+      "NR-03",
+      "NR-10"
+    ],
+    "id": "Q-14"
+  },
+  {
+    "strategy": "S3",
+    "answer": "Brightwater",
+    "value": 72.46,
+    "unit": "million tenge",
+    "sources": [
+      "NR-05",
+      "NR-11",
+      "NR-15"
+    ],
+    "id": "Q-08"
+  },
+  {
+    "strategy": "S3",
+    "answer": "Harrowfield",
+    "value": 884.46,
+    "unit": "tenge per resident",
+    "sources": [
+      "NR-07",
+      "NR-01",
+      "NR-15"
+    ],
+    "id": "Q-17"
+  },
+  {
+    "strategy": "S3",
+    "answer": "Redfen",
+    "value": 56.1,
+    "unit": "pupils per school",
+    "sources": [
+      "NR-09",
+      "NR-10",
+      "NR-11"
+    ],
+    "id": "Q-11"
+  },
+  {
+    "strategy": "S3",
+    "answer": "Tarnvale",
+    "value": 64.39,
+    "unit": "thousand tenge per pupil",
+    "sources": [
+      "NR-07",
+      "NR-03"
+    ],
+    "id": "Q-12"
+  },
+  {
+    "strategy": "S3",
+    "answer": "Coldharbour",
+    "value": 4.16,
+    "unit": "percent",
+    "sources": [
+      "NR-02",
+      "NR-06",
+      "NR-12"
+    ],
+    "id": "Q-13"
+  },
+  {
+    "strategy": "S3",
+    "answer": "Yes",
+    "value": 40013,
+    "unit": "residents",
+    "sources": [
+      "NR-11"
+    ],
+    "id": "Q-18"
+  },
+  {
+    "strategy": "S3",
+    "answer": "Ashgrove",
+    "value": 2993.34,
+    "unit": "tenge per resident",
+    "sources": [
+      "NR-01",
+      "NR-10",
+      "NR-07"
+    ],
+    "id": "Q-20"
+  }
+]

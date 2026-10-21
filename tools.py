@@ -211,7 +211,12 @@ def lookup(district, field):
                         doc["text"],
                         re.IGNORECASE
                     )
-
+                if not match:
+                    match = re.search(
+                        r"([\d,]+)\s+in\s+2025",
+                        doc["text"],
+                        re.IGNORECASE
+                    )
                 if match:
                     population = int(match.group(1).replace(",", ""))
 

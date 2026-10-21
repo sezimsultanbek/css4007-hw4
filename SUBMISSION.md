@@ -262,19 +262,25 @@ This design also makes it possible to log each tool call and identify whether an
 
 ### What I changed from Part A while coding
 
-<!-- what changed in your plan, and why. "None" is an answer too. -->
+During implementation, I replaced the planned model-directed tool-calling loop with a deterministic Python workflow for S3. The workflow uses `lookup` to retrieve district facts and `calculate` to perform arithmetic. Each question is routed to a predefined calculation function.
+
+I made this change because no model API key was available. As a result, the S3 implementation demonstrates tool-based retrieval and calculation, but it does not demonstrate an LLM independently selecting and calling tools. S1 and S2 were implemented as function wrappers but were not evaluated with a live language model.
+
+The deterministic S3 workflow produced 20 unique results for 20 questions. All 20 matched the reference answers after applying the required decimal precision.
 
 ### B2 — Tests
 
 ```text
-<!-- pytest output -->
+$ python -m pytest test_tools.py -v
+
+5 passed
 ```
 
 ### B3 — The loop
 
-- Round limit, and why:
-- Where the logs are:
-- Real Q-09 conversation compared with my A3 version, what is different:
+- **Round limit, and why:** The implemented S3 workflow uses predefined Python functions rather than an iterative LLM tool-calling loop. Therefore, an LLM round limit was not implemented. Each calculation completes through a fixed sequence of `lookup` and `calculate` calls.
+- **Where the logs are:** The final S3 results are saved in `outputs/s3_results.json`. This file contains the answers, calculated values, units, and source IDs. It is a results file, not a full model conversation or tool-call transcript.
+- **Real Q-09 conversation compared with my A3 version, what is different:** In Part A, I designed a conversation where the model independently requests four lookups and three calculations. In the implemented workflow, Python directly calls the tools for Brightwater and Millbrook. The final answer matches the reference answer: Millbrook, by 0.6 residents per km². However, no real model-tool conversation was generated, so I cannot compare actual model messages against the handwritten example.
 
 ### B4 — Three strategies
 
@@ -283,56 +289,106 @@ This design also makes it possible to log each tool call and identify whether an
 <!-- model, temperature, k, prompts, answer format, anything else -->
 
 **My rule for a correct answer** (written before the first full run):
+**What I kept the same:**
+
+All strategies were designed to answer the same 20 questions using the same Nine Rivers corpus and reference answers. S2 was configured for majority voting with `k = 5`.
+
+**My rule for a correct answer** (written before the first full run):
+
+An answer is correct when both the selected district or Yes/No response and the numerical value match the reference answer at the required decimal precision. Question IDs must be unique.
+
+**Experiment status:**
+
+- **S1 direct:** Implemented as a Python wrapper, but not run with a live language model.
+- **S2 think-and-vote (k = 5):** Implemented as a Python voting wrapper, but not run with a live language model.
+- **S3 tools:** Deterministic Python tool workflow completed for all 20 questions; 20/20 answers matched the reference.
+- **Second independent run:** Not conducted.
+- **Token usage, model latency, and API cost:** Not measured because no model API calls were made.
+
+The S3 accuracy is a deterministic workflow result, not a measured LLM tool-calling accuracy. It should not be interpreted as evidence that S3 outperforms S1 or S2.
 
 | Run | Strategy | Correct /20 | Unanswered | Input tokens | Output tokens | Median seconds per question | Total seconds | Cost ($) |
 |---|---|---:|---:|---:|---:|---:|---:|---:|
-| 1 | S1 direct | | | | | | | |
-| 1 | S2 think and vote (k = ) | | | | | | | |
-| 1 | S3 tools | | | | | | | |
-| 2 | S1 direct | | | | | | | |
-| 2 | S2 think and vote (k = ) | | | | | | | |
-| 2 | S3 tools | | | | | | | |
+| 1 | S1 direct | N/A | N/A | N/A | N/A | N/A | N/A | N/A |
+| 1 | S2 think and vote (k = 5 ) | N/A | N/A | N/A | N/A | N/A | N/A | N/A |
+| 1 | S3 deterministic tools | 20/20 | 0 | N/A | N/A | Not measured | Not measured | N/A |
+| 2 | S1 direct | Not run | N/A | N/A | N/A | N/A | N/A | N/A |
+| 2 | S2 think and vote (k = 5 ) | Not run | N/A | N/A | N/A | N/A | N/A | N/A |
+| 2 | S3 tools | Not run | N/A | N/A | N/A | N/A | N/A | N/A |
 
 **Per question (run 1):**
 
 | Question | S1 | S2 | S3 |
 |---|:---:|:---:|:---:|
-| Q-01 | | | |
-| Q-02 | | | |
-| Q-03 | | | |
-| Q-04 | | | |
-| Q-05 | | | |
-| Q-06 | | | |
-| Q-07 | | | |
-| Q-08 | | | |
-| Q-09 | | | |
-| Q-10 | | | |
-| Q-11 | | | |
-| Q-12 | | | |
-| Q-13 | | | |
-| Q-14 | | | |
-| Q-15 | | | |
-| Q-16 | | | |
-| Q-17 | | | |
-| Q-18 | | | |
-| Q-19 | | | |
-| Q-20 | | | |
+| Q-01 | N/A | N/A | ✓ |
+| Q-02 | N/A | N/A | ✓ |
+| Q-03 | N/A | N/A | ✓ |
+| Q-04 | N/A | N/A | ✓ |
+| Q-05 | N/A | N/A | ✓ |
+| Q-06 | N/A | N/A | ✓ |
+| Q-07 | N/A | N/A | ✓ |
+| Q-08 | N/A | N/A | ✓ |
+| Q-09 | N/A | N/A | ✓ |
+| Q-10 | N/A | N/A | ✓ |
+| Q-11 | N/A | N/A | ✓ |
+| Q-12 | N/A | N/A | ✓ |
+| Q-13 | N/A | N/A | ✓ |
+| Q-14 | N/A | N/A | ✓ |
+| Q-15 | N/A | N/A | ✓ |
+| Q-16 | N/A | N/A | ✓ |
+| Q-17 | N/A | N/A | ✓ |
+| Q-18 | N/A | N/A | ✓ |
+| Q-19 | N/A | N/A | ✓ |
+| Q-20 | N/A | N/A | ✓ |
 
 ---
 
 ## Part C — Explain and choose (Hard)
 
+
 ### C1 — Does the tool description matter?
+
+The detailed `lookup` description specifies current district profiles, source IDs, archived-document exclusions, and correction notices. The detailed `calculate` description restricts arithmetic to safe expressions.
+
+These descriptions could help a language model choose tools correctly. However, I did not conduct the required comparison between detailed and vague tool descriptions because no live model API was available.
 
 | Question | Calls (your description) | Calls (vague) | Answer (yours) | Answer (vague) |
 |---|---:|---:|---|---|
-| | | | | |
+| Q-09 | Not tested | Not tested | Not tested with LLM | Not tested with LLM |
+
+Therefore, I cannot claim that the detailed descriptions improved accuracy or changed the number of tool calls.
 
 ### C2 — Three mistakes explained
 
+**1. Outdated or uncorrected source data (Q-09).**
+
+Brightwater's area was corrected from 912.4 km² to 921.4 km² in NR-16. Using the earlier value would produce an incorrect population density. The implemented lookup tool applies the correction. This illustrates why source selection matters before arithmetic.
+
+**2. Rounding at the wrong precision (Q-14).**
+
+The initial Q-14 result was 4.85, while the reference answer required one decimal place: 4.9. The selected district, Ashgrove, was correct. I adjusted the final formatting to match the question's required precision without changing the underlying calculation.
+
+**3. Duplicate result records (Q-03 and Q-14).**
+
+During development, the experiment generated 22 records for 20 questions because Q-03 and Q-14 appeared twice. I added a deduplication step keyed by question ID. The final file contains 20 records and 20 unique question IDs.
+
+These are observed implementation issues, not errors measured in S1 or S2 model responses.
+
 ### C3 — Which strategy I would use, and what would change it
 
+For this structured numerical dataset, I would choose a tool-based approach because retrieval and arithmetic can be tested separately. It also makes source corrections and calculations easier to inspect.
+
+My deterministic S3 implementation matched all 20 reference answers. However, this result does not establish that an LLM using tools would outperform direct answering or think-and-vote, because S1 and S2 were not evaluated.
+
+I would reconsider this choice if questions required mainly qualitative interpretation, if tool calls were unreliable, or if a controlled experiment showed that another strategy achieved comparable accuracy with lower latency and cost.
+
 ### C4 — How sure I can be
+
+I have high confidence that the final deterministic S3 results match the provided reference answers: 20 out of 20 passed the answer-and-value check, and all question IDs are unique.
+
+I have lower confidence in generalizing beyond this dataset. The workflow uses predefined Python routing rather than autonomous model tool selection. I did not measure repeated-run variability, token consumption, model latency, or model API costs.
+
+A stronger evaluation would run S1, S2, and genuine LLM-based S3 under the same model and settings, repeat each experiment twice, record complete tool-call logs, and compare accuracy, unanswered questions, latency, tokens, and cost.
 
 ### Final questions
 
